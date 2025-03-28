@@ -136,8 +136,8 @@ function display_users_current_choices_and_selections() {
 
 # @function ~ Prompt user to continue with current config or to edit them
 function ask_user_to_keep_or_change_current_configurations() {
-	unset SUBMENU_READ_PROMPT
-	unset USER_CONFIRM_CHOICES_ANSWER
+	local SUBMENU_READ_PROMPT
+	local USER_CONFIRM_CHOICES_ANSWER
 	SUBMENU_READ_PROMPT="$(echo -e " ${ITALIC}${DIM}Select an option (using its number... 1 or 2) :${RESET} ")"
 
 	echo -e "${BOLD}--------------------------------------------------------------         ${RESET}"
@@ -159,9 +159,9 @@ function choose_dns_provider() {
 	MENU_READ_PROMPT="$(echo -e " ${ITALIC}${DIM}Select an option (using its number... 1, 2, or 3) :${RESET} ")"
 
 	echo -e "\n\n${DIM}--------------------------------------------------------------${RESET}"
-	echo -e "  ${BOLD}${GREEN}Choose DNS Provider 		      ${RESET}"
+	echo -e "  ${BOLD}${GREEN}Choose DNS Provider 		        ${RESET}"
 	echo -e "${DIM}--------------------------------------------------------------${RESET}"
-	echo -e "    ${BOLD}[1].${RESET} ${YELLOW}Cloudflare 	  ${RESET}"
+	echo -e "    ${BOLD}[1].${RESET} ${YELLOW}Cloudflare 	    ${RESET}"
 	echo -e "    ${BOLD}[2].${RESET} ${YELLOW}GoDaddy 			${RESET}"
 	echo -e "    ${BOLD}[3].${RESET} ${YELLOW}Namecheap 		${RESET}"
 	echo -e "${DIM}--------------------------------------------------------------${RESET}"
@@ -189,13 +189,32 @@ function choose_dns_provider() {
 	
 	display_users_current_choices_and_selections
 	
-	local CONTINUE_OR_CHANGE_ANSWER
-	CONTINUE_OR_CHANGE_ANSWER="$(ask_user_to_keep_or_change_current_configurations)"
+	# local CONTINUE_OR_CHANGE_ANSWER
+	# CONTINUE_OR_CHANGE_ANSWER="$(ask_user_to_keep_or_change_current_configurations)"
 	
-	if [[ "${CONTINUE_OR_CHANGE_ANSWER}" -eq 2 ]]; then
-		print_error " [ SORRY THIS FEATURE IS NOT YET IMPLEMENTED... ] "
-		exit 1
-	fi
+	# if [[ "${CONTINUE_OR_CHANGE_ANSWER}" -eq 2 ]]; then
+	# 	print_error " [ SORRY THIS FEATURE IS NOT YET IMPLEMENTED... ] "
+	# 	exit 1
+	# fi
+
+	local SUBMENU_READ_PROMPT
+	local USER_CONFIRM_CHOICES_ANSWER
+	
+	SUBMENU_READ_PROMPT="$(echo -e " ${ITALIC}${DIM}Select an option (using its number... 1 or 2) :${RESET} ")"
+
+	echo -e "${BOLD}--------------------------------------------------------------         ${RESET}"
+	echo -e "  ${DIM}${BOLD}(Review your selections, entries, and choices listed above...) ${RESET}"
+	echo -e "   ${BOLD}[1].${RESET}${YELLOW} Make changes.                                 ${RESET}"
+	echo -e "   ${BOLD}[2].${RESET}${YELLOW} Confirm choices and continue.                 ${RESET}"
+	echo -e "${DIM}--------------------------------------------------------------          ${RESET}"
+	read -rp " ${SUBMENU_READ_PROMPT}" USER_CONFIRM_CHOICES_ANSWER
+
+	case "${SUBMENU_READ_PROMPT}" in
+		1) echo " " ; print_error "Sorry, this feature is not yet implemented..." ; exit 1 ;;
+		2) echo " " ; print_success_message "Choices Confirmed. Now continuing..." ;;
+		*) echo " " ; print_error "Invalid choice... Enter either '1' or '2' (without quotes). " ; echo " " ;;
+	esac
+
 }
 
 # @function ~ DNS records setup via DNS provider API
@@ -332,5 +351,5 @@ program
 #===============================================================================
 # Script End
 #===============================================================================
-The transaction has been completed successfully.
+
 
